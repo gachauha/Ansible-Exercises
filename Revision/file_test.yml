@@ -1,0 +1,37 @@
+---
+  -
+    name: Testing File Module
+    hosts: amazonlinux_ansible
+    gather_facts: no
+    tasks:
+      - name: Creating Directory
+        file:
+          path: $HOME/{{ item }}
+          state: directory
+        loop:
+          - dir1
+          - dir2
+      - name: Creating Directory and changing permission
+        file:
+          path: /home/{{ ansible_user }}/{{ item }}
+          state: directory
+          mode: 0600
+          owner: root
+          group: root
+        become: true
+        become_user: root
+        loop:
+          - dir3
+          - dir4
+      - name: creating files
+        file:
+          path: /home/{{ ansible_user }}/{{ item }}
+          state: touch
+        loop:
+          - file1
+          - file2
+      - name: creating symlinks
+        file:
+          src: /home/{{ ansible_user }}/file1
+          dest: /home/{{ ansible_user }}/link1
+          state: link

@@ -1,0 +1,3 @@
+[amazonec2]
+amazonlinux_ansible ansible_host=13.235.69.204
+amazonlinux_jenkins ansible_host=13.232.219.211

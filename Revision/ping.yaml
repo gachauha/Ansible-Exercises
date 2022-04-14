@@ -1,0 +1,10 @@
+---
+  - name: ping test
+    hosts: all
+    tasks:
+      - name: Pinging
+        ping:
+        register: ping_out
+
+      - debug:
+          var: ping_out.stdout_lines
