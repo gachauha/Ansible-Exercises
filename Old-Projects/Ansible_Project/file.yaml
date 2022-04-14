@@ -1,0 +1,52 @@
+---
+- name: Run task on amazon ec2 host
+  hosts: "*"
+  tasks:
+   - debug: var=ansible_user
+
+   - name: ensure a test file is there on remote
+     file: 
+      path: /home/{{ ansible_user }}/test/{{ item }}
+      state: touch
+     loop:
+      - test_file1
+      - test_file2
+
+   - name: Copying some host specific data in a file
+     copy:
+      dest: /home/{{ ansible_user }}/test/{{ item }}
+      content: "{{ item }}:{{ ansible_host}}:{{ ansible_user }}"
+     loop:
+      - test_file1
+      - test_file2
+   
+   - name: Downloading a file to local from ec2
+     fetch:
+      src: /home/{{ ansible_user }}/test/{{ item }}
+      dest: remote/{{ inventory_hostname }}/
+      flat: true
+     loop:
+      - test_file1
+      - test_file2
+
+   - name: copying files to remote ec2 machine and changing owner,permission etc
+     copy: 
+      src: "{{ item }}"
+      dest: /home/{{ ansible_user }}
+      owner: ec2-user
+      mode: 0600
+      group: ec2-user
+     become: true
+     loop:
+      - file1
+      - file2
+
+   - name: copying file on remote host from one loc to another 
+     copy:
+      src: /home/{{ ansible_user }}/file3
+      dest: $HOME/
+      remote_src: true
+      owner: root
+      mode: 0755
+     become: true
+

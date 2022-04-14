@@ -1,0 +1,33 @@
+---
+- name: this is to demonstrate the template demo
+  hosts: "*"
+  vars: 
+    users:
+      - name: John Doe
+        username: jdoe
+      - name: Gaurav Chauhan
+        username: gchauhan
+  tasks:
+   - name: making sure that a user exists
+     user:
+      name: "{{ user.username }}"
+      comment: "Creating user {{ user.name }}"
+      state: present
+     become: true
+     loop: "{{ users }}"
+     loop_control: 
+       loop_var: user
+
+
+   - name: creating user specific .gitconfig file
+     template:
+      src: .gitconfig.j2
+      dest: /home/{{ user.username }}/.gitconfig
+      owner: "{{ user.username }}"
+      group: "{{ user.username }}"
+      mode: 0644
+     become: true
+     loop: "{{ users }}"
+     loop_control:
+      loop_var: user
+

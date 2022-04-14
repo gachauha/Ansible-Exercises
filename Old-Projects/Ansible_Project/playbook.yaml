@@ -1,0 +1,8 @@
+---
+- name: Installing Java Nginx and Docker
+  hosts: all
+  become: true
+  roles: 
+    - geerlingguy.java
+    - geerlingguy.nginx
+    - geerlingguy.docker

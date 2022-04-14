@@ -1,0 +1,14 @@
+-
+  name: Ping Test
+  hosts: all
+  tasks:
+    -
+      name: Pinging
+      ping:
+    -
+      name: cat command
+      command: cat /etc/hosts
+      register: cmd_out
+    -
+      debug:
+        var: cmd_out.stdout_lines

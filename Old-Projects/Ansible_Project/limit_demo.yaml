@@ -1,0 +1,17 @@
+---
+- name: Run task on amazon ec2 host
+  hosts: "*"
+  tasks:
+   - debug: var=ansible_user
+
+   - name: copying files to remote ec2 machine and changing owner,permission etc
+     copy: 
+      src: "{{ item }}"
+      dest: /home/{{ ansible_user }}
+      owner: ec2-user
+      mode: 0600
+      group: ec2-user
+     become: true
+     loop:
+      - file1
+      - file2

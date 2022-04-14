@@ -1,0 +1,9 @@
+[userspecific]
+name = {{ user.name }}
+username = {{ user.username }}
+email = {{ user.username }}@example.com
+
+[core]
+excludesfile = /home/{{ user.username }}/.gitignore
+local_ip = {{ ansible_host }}
+local_user = {{ ansible_user }}
